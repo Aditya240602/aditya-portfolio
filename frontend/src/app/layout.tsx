@@ -5,6 +5,7 @@ import "@fontsource/instrument-serif/400.css";
 import "@fontsource/instrument-serif/400-italic.css";
 import "./globals.css";
 import { site, socials, isSet } from "@/data/site";
+import { Analytics } from "@vercel/analytics/next";
 
 const title = `${site.name} — Software Developer & Competitive Programmer`;
 
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
+        <Analytics />
         <noscript>
           <style>{".ssr-pending{opacity:1!important}"}</style>
         </noscript>
