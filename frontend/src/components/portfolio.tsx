@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { Github, Linkedin } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUp, Github, Linkedin } from "lucide-react";
 import { cardOrder, navItems, projects, site, social, type CardId } from "@/data/site";
 import { Canvas, type CanvasHandle } from "./canvas";
 import {
@@ -37,6 +37,16 @@ export default function Portfolio({ resumeHref, year }: { resumeHref: string | n
   const reduce = useReducedMotion();
   const canvasRef = useRef<CanvasHandle>(null);
   const [active, setActive] = useState<CardId>("intro");
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    if (mode === "canvas") return;
+    const onScroll = () => {
+      setShowTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mode]);
 
   const go = useCallback(
     (key: string) => {
@@ -95,7 +105,7 @@ export default function Portfolio({ resumeHref, year }: { resumeHref: string | n
       ) : (
         <main
           id="main"
-          className={cn("mx-auto max-w-2xl px-4 pb-10 pt-36 sm:pt-32", mode === "ssr" && "ssr-pending")}
+          className={cn("mx-auto max-w-2xl px-3.5 sm:px-4 pb-12 pt-28 sm:pt-32", mode === "ssr" && "ssr-pending")}
         >
           {cardOrder.map((id, i) => (
             <div key={id}>
@@ -105,7 +115,7 @@ export default function Portfolio({ resumeHref, year }: { resumeHref: string | n
               <motion.section
                 id={id}
                 data-card={id}
-                className="scroll-mt-36"
+                className="scroll-mt-28 sm:scroll-mt-32"
                 initial={reduce ? false : { opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -60px 0px" }}
@@ -127,6 +137,23 @@ export default function Portfolio({ resumeHref, year }: { resumeHref: string | n
           </footer>
         </main>
       )}
+
+      {/* Floating back-to-top button on mobile */}
+      <AnimatePresence>
+        {mode === "stack" && showTop && (
+          <motion.button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" })}
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            aria-label="Back to top"
+            className="fixed bottom-5 right-5 z-40 grid h-10 w-10 place-items-center rounded-full border border-line bg-card/95 text-fg shadow-lift backdrop-blur transition hover:border-accent hover:text-accent active:scale-95"
+          >
+            <ArrowUp size={16} aria-hidden />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Canvas footer */}
       {mode === "canvas" && (
@@ -153,7 +180,7 @@ function Header({ activeKey, go }: { activeKey: string; go: (k: string) => void 
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 pt-[env(safe-area-inset-top)]">
       <div
         className={cn(
-          "pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 sm:px-6",
+          "pointer-events-auto flex items-center justify-between gap-2.5 px-3.5 py-2.5 sm:px-6 sm:py-3",
           "border-b border-line bg-bg/90 backdrop-blur-md lg:pointer-events-none lg:border-0 lg:bg-transparent lg:backdrop-blur-none",
         )}
       >
@@ -200,7 +227,7 @@ function Header({ activeKey, go }: { activeKey: string; go: (k: string) => void 
         ref={navRef}
         aria-label="Sections"
         className={cn(
-          "pointer-events-auto flex gap-1 overflow-x-auto border-b border-line bg-bg/90 px-3 py-2 backdrop-blur-md [scrollbar-width:none]",
+          "pointer-events-auto flex gap-1 overflow-x-auto border-b border-line bg-bg/90 px-3 py-1.5 sm:py-2 backdrop-blur-md [scrollbar-width:none] overscroll-x-contain",
           "lg:absolute lg:left-1/2 lg:top-3 lg:-translate-x-1/2 lg:overflow-visible lg:rounded-full lg:border lg:border-line/60 lg:bg-card/90 lg:p-1 lg:shadow-card",
         )}
       >
@@ -213,7 +240,7 @@ function Header({ activeKey, go }: { activeKey: string; go: (k: string) => void 
               aria-current={on ? "true" : undefined}
               onClick={(e) => { e.preventDefault(); go(n.key); }}
               className={cn(
-                "relative shrink-0 rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors duration-150",
+                "relative shrink-0 rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 text-[12px] sm:text-[13px] font-medium transition-colors duration-150",
                 on ? "text-white" : "text-muted hover:text-fg",
               )}
             >

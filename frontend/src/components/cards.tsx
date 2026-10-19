@@ -120,7 +120,7 @@ export function IntroCard({ resumeHref }: { resumeHref: string | null }) {
       {/* Floating symbols — desktop only, decorative */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl hidden sm:block"
       >
         {techSymbols.map((sym, i) => (
           <motion.span
@@ -181,7 +181,7 @@ export function IntroCard({ resumeHref }: { resumeHref: string | null }) {
         </p>
 
         {/* Main headline */}
-        <h1 className="mt-3 font-serif text-[3.4rem] leading-[0.93] tracking-tight sm:text-[4.2rem]">
+        <h1 className="mt-3 font-serif text-[2.5rem] leading-[0.98] tracking-tight sm:text-[3.6rem] md:text-[4.2rem]">
           Hey, I'm{" "}
           <span
             className="italic"
@@ -192,9 +192,9 @@ export function IntroCard({ resumeHref }: { resumeHref: string | null }) {
         </h1>
 
         {/* Currently building note */}
-        <p className="mt-3 inline-flex items-center gap-2 rounded-lg border border-line bg-bg/60 px-3 py-1.5 font-mono text-[11px] text-muted">
-          <Zap size={11} className="text-accent4" aria-hidden />
-          Currently building: REST APIs · CLI tools · DSA mastery
+        <p className="mt-3 inline-flex max-w-full flex-wrap items-center gap-2 rounded-lg border border-line bg-bg/60 px-3 py-1.5 font-mono text-[11px] text-muted">
+          <Zap size={11} className="text-accent4 shrink-0" aria-hidden />
+          <span>Currently building: REST APIs · CLI tools · DSA mastery</span>
         </p>
       </div>
 
@@ -216,22 +216,22 @@ export function IntroCard({ resumeHref }: { resumeHref: string | null }) {
         <motion.button
           type="button"
           onClick={() => go("projects")}
-          className={cn(btn.base, btn.primary, "text-white")}
+          className={cn(btn.base, btn.primary, "text-white w-full sm:w-auto")}
           whileHover={reduce ? {} : { scale: 1.03 }}
           whileTap={reduce ? {} : { scale: 0.97 }}
         >
           Explore My Projects <ArrowUpRight size={15} aria-hidden />
         </motion.button>
-        <ExtLink url={social("github").url} className={cn(btn.base, btn.outline)}>
+        <ExtLink url={social("github").url} className={cn(btn.base, btn.outline, "flex-1 sm:flex-initial")}>
           <Github size={15} aria-hidden /> GitHub
         </ExtLink>
-        <ExtLink url={social("linkedin").url} className={cn(btn.base, btn.outline)}>
+        <ExtLink url={social("linkedin").url} className={cn(btn.base, btn.outline, "flex-1 sm:flex-initial")}>
           <Linkedin size={15} aria-hidden /> LinkedIn
         </ExtLink>
-        <button type="button" onClick={() => go("contact")} className={cn(btn.base, btn.outline)}>
+        <button type="button" onClick={() => go("contact")} className={cn(btn.base, btn.outline, "flex-1 sm:flex-initial")}>
           <Mail size={15} aria-hidden /> Contact Me
         </button>
-        <ResumeButton href={resumeHref} />
+        <ResumeButton href={resumeHref} className="w-full sm:w-auto" />
       </div>
 
       {/* Quick profile links bar */}
@@ -273,8 +273,8 @@ const Dots = () => (
 function BarRow({ name, pct, text, accent }: { name: string; pct: number; text: string; accent?: boolean }) {
   const reduce = useReducedMotion();
   return (
-    <div className="grid grid-cols-[3.2rem_1fr_auto] items-center gap-2.5">
-      <span className="text-[#8d8b82]">{name}</span>
+    <div className="grid grid-cols-[2.8rem_1fr_auto] sm:grid-cols-[3.2rem_1fr_auto] items-center gap-2 sm:gap-2.5">
+      <span className="text-[#8d8b82] text-[11px] sm:text-[12px]">{name}</span>
       <div className="h-2 overflow-hidden rounded-sm bg-white/[0.07]">
         <motion.div
           className="h-full rounded-sm"
@@ -293,10 +293,10 @@ function BarRow({ name, pct, text, accent }: { name: string; pct: number; text: 
 /** API benchmark visualization — figures from actual test data */
 function ApiVisual() {
   return (
-    <div className="term rounded-xl p-4 font-mono text-[12px] leading-relaxed">
+    <div className="term rounded-xl p-3.5 sm:p-4 font-mono text-[11px] sm:text-[12px] leading-relaxed overflow-x-auto">
       <div className="flex items-center justify-between gap-3 text-[#8d8b82] max-sm:justify-start">
         <Dots />
-        <span>autocannon · 100 → 1,500 connections</span>
+        <span className="truncate">autocannon · 100 → 1,500 connections</span>
       </div>
 
       <div className="mt-4 space-y-1.5">
@@ -336,7 +336,7 @@ function CliVisual() {
   ];
 
   return (
-    <div className="term rounded-xl p-4 font-mono text-[12px] leading-relaxed">
+    <div className="term rounded-xl p-3.5 sm:p-4 font-mono text-[11px] sm:text-[12px] leading-relaxed overflow-x-auto">
       <div className="flex items-center justify-between gap-3 text-[#8d8b82] max-sm:justify-start">
         <Dots />
         <span>taskflow · C++17</span>
@@ -411,13 +411,13 @@ export function ProjectCard({ project: p, index }: { project: Project; index: nu
 
       <ExtLink
         url={p.repo}
-        className="group inline-flex items-center gap-2 transition-opacity hover:opacity-90"
+        className="group inline-flex items-center gap-2 transition-opacity hover:opacity-90 max-w-full"
       >
-        <h2 className="font-serif text-[2.6rem] leading-none tracking-tight transition-colors group-hover:text-accent">
+        <h2 className="font-serif text-[2rem] sm:text-[2.6rem] leading-none tracking-tight transition-colors group-hover:text-accent">
           {p.name}
         </h2>
         <ArrowUpRight
-          size={22}
+          size={20}
           className="shrink-0 text-muted/60 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
           aria-hidden
         />
@@ -461,17 +461,17 @@ export function ProjectCard({ project: p, index }: { project: Project; index: nu
         </AnimatePresence>
       </ul>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3" data-nodrag>
+      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3" data-nodrag>
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          className="inline-flex items-center gap-1.5 font-mono text-xs text-muted transition hover:text-fg"
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-muted transition hover:text-fg self-start sm:self-auto"
         >
           {open ? "Show less" : `Show all ${p.highlights.length} highlights`}
           <ChevronDown size={14} aria-hidden className={cn("transition-transform", open && "rotate-180")} />
         </button>
-        <ExtLink url={p.repo} className={cn(btn.base, btn.primary, "!py-2 text-white")}>
+        <ExtLink url={p.repo} className={cn(btn.base, btn.primary, "!py-2 text-white w-full sm:w-auto")}>
           <Github size={15} aria-hidden /> View Project Repo <ArrowUpRight size={14} aria-hidden />
         </ExtLink>
       </div>
@@ -524,7 +524,7 @@ export function StackCard() {
   return (
     <CardShell label="Tech stack" icon={Braces} index="04" accent="mint">
       <div className="flex items-start justify-between gap-4">
-        <h2 className="font-serif text-[2.6rem] leading-none tracking-tight">Tools I build with</h2>
+        <h2 className="font-serif text-[2rem] sm:text-[2.6rem] leading-none tracking-tight">Tools I build with</h2>
         <div className="mt-2 shrink-0 hidden sm:block">
           <GitBranch size={32} className="text-accent3/40" aria-hidden />
         </div>
@@ -604,14 +604,14 @@ export function AchievementsCard() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <TagPill accent="yellow">Problem Solving</TagPill>
-          <h2 className="mt-2 font-serif text-[2.6rem] leading-none tracking-tight">
+          <h2 className="mt-2 font-serif text-[2rem] sm:text-[2.6rem] leading-none tracking-tight">
             Achievements
           </h2>
         </div>
         <Trophy size={36} className="mt-1 shrink-0 text-accent4/30 hidden sm:block" aria-hidden />
       </div>
 
-      <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <ul className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3 sm:grid-cols-3">
         {stats.map((s) => {
           const m = platformMeta[s.platform ?? "dsa"];
           const Icon = m.icon;
@@ -619,22 +619,22 @@ export function AchievementsCard() {
           return (
             <li
               key={s.id}
-              className="group rounded-xl border border-line bg-bg/40 p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm sm:p-4"
+              className="group rounded-xl border border-line bg-bg/40 p-3 sm:p-4 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <span className={cn("icon-badge h-6 w-6 rounded-lg text-[11px]", badge)} aria-hidden>
                   <Icon size={11} />
                 </span>
-                <span className="font-mono text-[9px] uppercase tracking-wider text-muted">{m.name}</span>
+                <span className="font-mono text-[9px] uppercase tracking-wider text-muted truncate">{m.name}</span>
               </div>
               <CountUp
                 value={s.value}
                 prefix={s.prefix}
                 suffix={s.suffix}
-                className="mt-3 block whitespace-nowrap font-serif text-[clamp(1.7rem,7vw,2.5rem)] leading-none tracking-tight"
+                className="mt-3 block whitespace-nowrap font-serif text-[clamp(1.35rem,5.5vw,2.4rem)] leading-none tracking-tight"
               />
               <p className="mt-2 text-[12px] leading-snug text-fg/80">{s.label}</p>
-              {s.note && <p className="mt-0.5 font-mono text-[10px] text-muted">{s.note}</p>}
+              {s.note && <p className="mt-0.5 font-mono text-[10px] text-muted truncate">{s.note}</p>}
             </li>
           );
         })}
@@ -643,13 +643,13 @@ export function AchievementsCard() {
       {/* Open source contribution */}
       <ExtLink
         url={openSource.url}
-        className="mt-3 flex items-start gap-3 rounded-xl border border-accent3/20 bg-accent3/5 p-4 transition-all hover:border-accent3/50 hover:-translate-y-0.5 hover:shadow-sm"
+        className="mt-3 flex items-start gap-3 rounded-xl border border-accent3/20 bg-accent3/5 p-3.5 sm:p-4 transition-all hover:border-accent3/50 hover:-translate-y-0.5 hover:shadow-sm"
       >
         <Award size={18} className="mt-0.5 shrink-0 text-accent3" aria-hidden />
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <TagPill accent="mint">Open Source</TagPill>
-            <span className="inline-flex items-center gap-1 font-mono text-[10px] text-accent3">
+            <span className="inline-flex items-center gap-1 font-mono text-[10px] text-accent3 truncate">
               gssoc.girlscript.tech <ArrowUpRight size={11} aria-hidden />
             </span>
           </div>
@@ -664,7 +664,7 @@ export function AchievementsCard() {
           const Icon = socialIcon[id];
           const acc = socialAccent[id];
           return (
-            <ExtLink key={id} url={social(id).url} className={cn(btn.base, btn.outline, "!py-2")}>
+            <ExtLink key={id} url={social(id).url} className={cn(btn.base, btn.outline, "!py-2 flex-1 sm:flex-initial")}>
               <span
                 className={cn("icon-badge h-5 w-5 rounded-md text-[10px]")}
                 style={{ background: `rgb(var(--${acc === "mint" ? "accent3" : acc === "violet" ? "accent2" : "accent4"}) / 0.12)`, color: `rgb(var(--${acc === "mint" ? "accent3" : acc === "violet" ? "accent2" : "accent4"}))` }}
@@ -694,31 +694,31 @@ export function LeadershipCard() {
   return (
     <CardShell label="Leadership" icon={Users} index="06" accent="violet">
       <TagPill accent="violet">Leadership</TagPill>
-      <h2 className="mt-2 font-serif text-[2.6rem] leading-none tracking-tight">{L.role}</h2>
+      <h2 className="mt-2 font-serif text-[2rem] sm:text-[2.6rem] leading-none tracking-tight">{L.role}</h2>
       <p className="mt-2 text-[15px]">{L.org}</p>
       <p className="mt-1 font-mono text-xs text-accent2">{L.period}</p>
 
       {/* Mentorship counter */}
-      <div className="mt-5 flex items-end gap-4 rounded-xl border border-accent2/20 bg-accent2/5 p-4">
+      <div className="mt-5 flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4 rounded-xl border border-accent2/20 bg-accent2/5 p-3.5 sm:p-4">
         <CountUp
           value={L.mentored.value}
           suffix={L.mentored.suffix}
-          className="font-serif text-[3.4rem] leading-none tracking-tight text-accent2"
+          className="font-serif text-[2.8rem] sm:text-[3.4rem] leading-none tracking-tight text-accent2"
         />
         <p className="pb-1 text-[13px] leading-snug text-muted">{L.mentored.label}</p>
       </div>
 
       {/* Activity tiles */}
-      <ul className="mt-4 grid grid-cols-3 gap-2" aria-label="What I do">
+      <ul className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2" aria-label="What I do">
         {steps.map(({ icon: Icon, label }) => (
           <li
             key={label}
-            className="flex flex-col items-center gap-1.5 rounded-xl border border-line bg-bg/40 px-2 py-3 text-center text-[12px] leading-tight transition-colors hover:border-accent2/40"
+            className="flex sm:flex-col items-center gap-2.5 sm:gap-1.5 rounded-xl border border-line bg-bg/40 px-3 py-2.5 sm:py-3 text-left sm:text-center text-[12px] leading-tight transition-colors hover:border-accent2/40"
           >
-            <span className="icon-badge h-7 w-7 rounded-xl bg-accent2/10 text-accent2" aria-hidden>
+            <span className="icon-badge h-7 w-7 rounded-xl bg-accent2/10 text-accent2 shrink-0" aria-hidden>
               <Icon size={14} />
             </span>
-            {label}
+            <span>{label}</span>
           </li>
         ))}
       </ul>
@@ -739,14 +739,14 @@ export function EducationCard() {
   return (
     <CardShell label="Education" icon={GraduationCap} index="07" accent="mint">
       <TagPill accent="mint">Education</TagPill>
-      <h2 className="mt-2 font-serif text-[2.6rem] leading-none tracking-tight">Education</h2>
-      <ol className="relative mt-6 space-y-6 border-l border-line pl-6">
+      <h2 className="mt-2 font-serif text-[2rem] sm:text-[2.6rem] leading-none tracking-tight">Education</h2>
+      <ol className="relative mt-6 space-y-6 border-l border-line pl-5 sm:pl-6">
         {education.map((e, i) => (
           <li key={e.school} className="relative">
             <span
               aria-hidden
               className={cn(
-                "absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-card",
+                "absolute -left-[27px] sm:-left-[31px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-card",
                 i === 0 ? "bg-accent3" : "bg-muted/50",
               )}
             />
@@ -775,16 +775,16 @@ export function ContactCard({ resumeHref }: { resumeHref: string | null }) {
         <span className="text-accent3">"Let's build something useful."</span>
       </p>
 
-      <h2 className="font-serif text-[2.2rem] leading-[1.05] tracking-tight">{site.contactLine}</h2>
+      <h2 className="font-serif text-[1.8rem] sm:text-[2.2rem] leading-[1.1] tracking-tight">{site.contactLine}</h2>
 
       {/* Availability note */}
       <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-accent3/25 bg-accent3/8 px-3 py-1.5 font-mono text-[11px] text-accent3">
         <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-accent3" style={{ color: "rgb(var(--accent3) / 0.4)" }} />
-        Available for internships · Starting Summer 2025
+        Available for internships · Starting Summer 2027
       </p>
 
       {/* Email section */}
-      <div className="mt-5 rounded-xl border border-line bg-bg/50 p-4" data-nodrag>
+      <div className="mt-5 rounded-xl border border-line bg-bg/50 p-3.5 sm:p-4" data-nodrag>
         <p className="label">Email</p>
         <a
           href={`mailto:${site.email}`}
@@ -792,11 +792,11 @@ export function ContactCard({ resumeHref }: { resumeHref: string | null }) {
         >
           {site.email}
         </a>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <a href={`mailto:${site.email}`} className={cn(btn.base, btn.primary, "!py-2")}>
+        <div className="mt-3 flex flex-col sm:flex-row gap-2">
+          <a href={`mailto:${site.email}`} className={cn(btn.base, btn.primary, "!py-2 justify-center")}>
             <Mail size={15} aria-hidden /> Send an email
           </a>
-          <CopyEmail className="!py-2" />
+          <CopyEmail className="!py-2 justify-center" />
         </div>
       </div>
 
@@ -813,13 +813,13 @@ export function ContactCard({ resumeHref }: { resumeHref: string | null }) {
                 className="flex w-full items-center gap-2.5 rounded-xl border border-line bg-bg/50 px-3.5 py-3 text-sm transition hover:border-fg/30 hover:-translate-y-0.5 hover:shadow-sm"
               >
                 <span
-                  className="icon-badge h-7 w-7 rounded-lg"
+                  className="icon-badge h-7 w-7 rounded-lg shrink-0"
                   style={{ background: `rgb(var(--${colorVar}) / 0.12)`, color: `rgb(var(--${colorVar}))` }}
                   aria-hidden
                 >
                   <Icon size={13} />
                 </span>
-                {s.label}
+                <span className="truncate">{s.label}</span>
               </ExtLink>
             </li>
           );
@@ -827,7 +827,7 @@ export function ContactCard({ resumeHref }: { resumeHref: string | null }) {
       </ul>
 
       <div className="mt-5" data-nodrag>
-        <ResumeButton href={resumeHref} variant="primary" />
+        <ResumeButton href={resumeHref} variant="primary" className="w-full sm:w-auto" />
       </div>
 
       {/* Footer terminal line */}

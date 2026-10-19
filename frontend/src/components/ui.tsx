@@ -101,7 +101,7 @@ export function CardShell({
       )}
 
       {/* Card header */}
-      <header className="flex items-center justify-between border-b border-line px-5 py-3">
+      <header className="flex items-center justify-between border-b border-line px-4 py-2.5 sm:px-5 sm:py-3">
         <span className="label flex items-center gap-2">
           {/* Icon badge */}
           <span
@@ -117,7 +117,7 @@ export function CardShell({
         </span>
       </header>
 
-      <div className="p-6 sm:p-7">{children}</div>
+      <div className="p-4 sm:p-6 md:p-7">{children}</div>
     </motion.article>
   );
 }
