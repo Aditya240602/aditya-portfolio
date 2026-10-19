@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================== */
+/* Design Tokens — "Playful Editorial Terminal"                        */
+/* Light: warm paper   Dark: deep violet-black                        */
+/* ================================================================== */
+:root {
+  --bg: 247 246 241;
+  --fg: 22 22 24;
+  --muted: 110 108 120;
+  --card: 255 255 252;
+  --line: 224 222 213;
+  --accent: 255 103 76;       /* coral */
+  --accent2: 111 88 242;      /* electric violet */
+  --accent3: 47 178 148;      /* mint */
+  --accent4: 240 185 40;      /* warm yellow */
+  --ok: 30 130 80;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: 15 15 19;
+  --fg: 244 243 239;
+  --muted: 140 138 160;
+  --card: 26 26 33;
+  --line: 48 46 60;
+  --accent: 255 119 91;       /* coral (dark) */
+  --accent2: 145 119 255;     /* electric violet (dark) */
+  --accent3: 83 211 177;      /* mint (dark) */
+  --accent4: 252 204 68;      /* warm yellow (dark) */
+  --ok: 94 200 140;
+  color-scheme: dark;
+}
+
+/* ================================================================== */
+/* Base                                                                */
+/* ================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.22);
+  }
+}
+
+/* ================================================================== */
+/* Component layer                                                     */
+/* ================================================================== */
+@layer components {
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-muted;
+  }
+
+  /* chip — base tech tag */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-bg/60 px-2.5 py-1 font-mono text-[11px] text-fg/80;
+    transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+  }
+  .chip:hover {
+    @apply border-accent/50 text-accent;
+    background-color: rgb(var(--accent) / 0.06);
+  }
+
+  /* icon badge — colored rounded-square */
+  .icon-badge {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-xl;
+    transition: transform 0.18s ease;
+  }
+  .icon-badge:hover {
+    transform: scale(1.1) rotate(-3deg);
+  }
+
+  /* Card accent strip */
+  .card-accent-strip {
+    @apply absolute inset-x-0 top-0 h-0.5 rounded-t-2xl;
+  }
+
+  /* status pulse */
+  .pulse-dot {
+    @apply relative h-2 w-2 rounded-full;
+  }
+  .pulse-dot::after {
+    content: "";
+    @apply absolute inset-0 rounded-full;
+    animation: ping-ring 1.8s ease-in-out infinite;
+  }
+}
+
+/* ================================================================== */
+/* Terminal panels — always dark regardless of theme                   */
+/* ================================================================== */
+.term {
+  background: #131316;
+  color: #e8e6e0;
+  border: 1px solid #2a2930;
+}
+
+/* ================================================================== */
+/* Animations                                                          */
+/* ================================================================== */
+@keyframes ping-ring {
+  0%   { box-shadow: 0 0 0 0 currentColor; opacity: 0.85; }
+  70%  { box-shadow: 0 0 0 6px currentColor; opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes float-sym {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.45; }
+  50%       { transform: translateY(-8px) rotate(4deg); opacity: 0.7; }
+}
+
+/* ================================================================== */
+/* Reduced-motion overrides                                            */
+/* ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pulse-dot::after {
+    animation: none;
+  }
+}
+
+/* ================================================================== */
+/* Desktop canvas — hide stacked fallback until hydrated (no flash)   */
+/* ================================================================== */
+@media (min-width: 1024px) {
+  .ssr-pending {
+    opacity: 0;
+  }
+}
+
+/* ================================================================== */
+/* Scrollbar polish                                                    */
+/* ================================================================== */
+[scrollbar-width="none"] {
+  scrollbar-width: none;
+}
+[scrollbar-width="none"]::-webkit-scrollbar {
+  display: none;
+}
